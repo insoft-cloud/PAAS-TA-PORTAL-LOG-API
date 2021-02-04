@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.10.RELEASE'
+        springBootVersion = '2.4.2'
     }
     repositories {
         mavenCentral()
@@ -11,13 +11,16 @@ buildscript {
 }
 
 ext {
-    springCloudVersion = 'Edgware.RELEASE'
+    springCloudVersion = '2020.0.0'
+    cfClientVersion = '5.1.0.RELEASE'
+    flywayVersion = '7.5.2'
+    jacocoVersion = '0.8.1'
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
-apply plugin: "io.spring.dependency-management"
-
+apply plugin: 'jacoco'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'paas-ta-portal-log-api'
@@ -38,30 +41,24 @@ dependencyManagement {
 dependencies {
     //Server Security
     compile ('org.springframework.boot:spring-boot-starter-security')
+    compile ('org.springframework.boot:spring-boot-starter-validation')
 
     //cloud foundry client
-    compile ('org.cloudfoundry:cloudfoundry-client-reactor:3.12.0.RELEASE')
-    compile ('org.cloudfoundry:cloudfoundry-operations:3.12.0.RELEASE')
+    compile ("org.cloudfoundry:cloudfoundry-client-reactor:${cfClientVersion}")
+    compile ("org.cloudfoundry:cloudfoundry-operations:${cfClientVersion}")
+    compile('org.cloudfoundry:cloudfoundry-client-lib:1.1.3')
+    compile ('com.googlecode.json-simple:json-simple:1.1.1')
+    compile ("org.flywaydb:flyway-core:${flywayVersion}")
+
     compile ('io.projectreactor:reactor-core:3.1.8.RELEASE')
-    compile ('io.projectreactor.ipc:reactor-netty:0.7.7.RELEASE')
-
-    compile ('org.cloudfoundry:cloudfoundry-client-lib:1.1.3')
-
+    compile ('io.projectreactor.ipc:reactor-netty:0.7.15.RELEASE')
     compile ('com.corundumstudio.socketio:netty-socketio:1.7.14')
 
-
-    compile ('org.flywaydb:flyway-core:4.0.3')
-
-
     testCompile('org.springframework.boot:spring-boot-starter-test')
-
 }
 
-
-apply plugin: 'jacoco'
-
 jacoco {
-    toolVersion = "0.7.9+"
+    toolVersion = "${jacocoVersion}"
 }
 
 test {
