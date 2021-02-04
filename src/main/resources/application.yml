@@ -1,6 +1,10 @@
+# Spring properties
 spring:
   application:
-      name: PortalApi
+    name: PortalLogApi  # Service registers under this name
+  security:
+    username: admin
+    password: openpaasta
   flyway:
       enabled: false
 
@@ -56,6 +60,13 @@ cloudfoundry:
       skipSSLValidation: true
   authorization: cf-Authorization
 
+# log
+logging:
+  level:
+    ROOT: INFO
+  file:
+    path: classpath:logback-spring.xml
+    name: logs/application.log
 
 ---
 spring:
